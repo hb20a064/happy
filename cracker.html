@@ -66,6 +66,7 @@
         scene.add(directionalLight);
 
         var flg = false;
+        var seflg = false;
 
 
 
@@ -279,11 +280,25 @@
 
 
 
+        const listener = new THREE.AudioListener();
+        camera.add(listener);
+        const AudioLoader = new THREE.AudioLoader();
+        const crackerSound = new THREE.Audio(listener);
+        AudioLoader.load('./cracker.mp3', function (buffer) {
+            crackerSound.setBuffer(buffer);
+            crackerSound.setLoop(false);
+            crackerSound.setVolume(1);
 
+        });
 
         function animate() {
             requestAnimationFrame(animate);
             if (flg == true) {
+                if (seflg == false) {
+                    crackerSound.play();
+                    seflg = true;
+                }
+
                 kamihubuki1.position.x += 0.04;
                 kamihubuki1.position.y -= 0.04;
                 kamihubuki1.position.z = (count - 1.414) ** 2 - 1.5;
